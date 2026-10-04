@@ -42,6 +42,16 @@ class MyApp extends StatelessWidget {
                   Text('Mobile Programming Student'),
                 ],
               ),
+              const SizedBox(height: 24),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Column(children: [Text('8'), Text('Widget')]),
+                  Column(children: [Text('4'), Text('Layout')]),
+                  Column(children: [Text('1'), Text('State')]),
+                ],
+              ),
             ],
           ),
         ),
