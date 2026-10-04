@@ -54,42 +54,36 @@ class MyApp extends StatelessWidget {
                     const SizedBox(height: 24),
                     const Divider(),
                     const SizedBox(height: 12),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                    Row(
                       children: [
-                        Column(
-                          children: [
-                            Text(
-                              '8',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text('Widget'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '4',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text('Layout'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '1',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text('State'),
-                          ],
-                        ),
+                        buildStatCard('8', 'Widget', Icons.widgets),
+                        buildStatCard('4', 'Layout', Icons.view_quilt),
+                        buildStatCard('1', 'State', Icons.sync),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildStatCard(String value, String label, IconData icon) {
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              Icon(icon),
+              const SizedBox(height: 6),
+              Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(label),
+            ],
           ),
         ),
       ),
