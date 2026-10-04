@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const String studentName = 'I Kadek Agus Dwi Adnyana';
 const String studentId = '2415051076';
 
-// Tahap 10: Data Collection Topics
+// Koleksi data topik (Tahap 10 & 11)
 final List<Map<String, dynamic>> topics = [
   {'title': 'Git & GitHub', 'subtitle': 'Version control', 'done': true},
   {'title': 'Dart Fundamentals', 'subtitle': 'Language basics', 'done': true},
@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Tahap 11: Menghitung ringkasan item selesai menggunakan where().length
+    final int completed = topics.where((item) => item['done'] == true).length;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -36,9 +39,10 @@ class MyApp extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // ==========================================
-                // KARTU PROFIL LENGKAP (Tahap 7, 8, & 9)
+                // KARTU PROFIL LENGKAP (Tahap 7 - 9)
                 // ==========================================
                 Card(
                   elevation: 4,
@@ -78,7 +82,7 @@ class MyApp extends StatelessWidget {
                         const Divider(),
                         const SizedBox(height: 12),
 
-                        // Statistik Reusable Widget (Tahap 8)
+                        // Statistik Reusable Widget
                         Row(
                           children: [
                             buildStatCard('8', 'Widget', Icons.widgets),
@@ -91,61 +95,68 @@ class MyApp extends StatelessWidget {
                         const Divider(),
                         const SizedBox(height: 12),
 
-                        // Form Input Sambutan Interaktif (Tahap 9)
+                        // Form Input Sambutan Interaktif
                         const GreetingCard(),
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
 
                 // ==========================================
-                // FITUR TAMBAHAN: LIST TOPIK (Tahap 10)
+                // TAHAP 11: RINGKASAN & LIST LEBIH INFORMATIF
                 // ==========================================
-                Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Daftar Topik Pembelajaran',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        ListView.builder(
-                          shrinkWrap:
-                              true, // Menyesuaikan tinggi dengan jumlah item
-                          physics: const NeverScrollableScrollPhysics(), // Scroll mengikuti layar utama
-                          itemCount: topics.length,
-                          itemBuilder: (context, index) {
-                            final item = topics[index];
-                            return ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Icon(
-                                item['done'] == true
-                                    ? Icons.check_circle
-                                    : Icons.circle_outlined,
-                                color: item['done'] == true
-                                    ? Colors.green
-                                    : Colors.grey,
-                              ),
-                              title: Text(item['title'] as String),
-                              subtitle: Text(item['subtitle'] as String),
-                            );
-                          },
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    '$completed dari ${topics.length} topik selesai',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                ),
+                const SizedBox(height: 8),
+
+                // ListView dengan pembungkus Card per-item sesuai lembar kerja
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: topics.length,
+                  itemBuilder: (context, index) {
+                    final item = topics[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical: 6,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        leading: Icon(
+                          item['done'] == true
+                              ? Icons.check_circle
+                              : Icons.schedule,
+                          color: item['done'] == true
+                              ? Colors.green
+                              : Colors.orange,
+                        ),
+                        title: Text(item['title'] as String),
+                        subtitle: Text(item['subtitle'] as String),
+                        trailing: Text(
+                          item['done'] == true ? 'Selesai' : 'Belum',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: item['done'] == true
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
