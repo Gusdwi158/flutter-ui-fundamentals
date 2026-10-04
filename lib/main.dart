@@ -17,42 +17,79 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('Flutter UI Fundamentals')),
         body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                radius: 46,
-                backgroundImage: const AssetImage('assets/images/profile.jpg'),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
               ),
-              const SizedBox(height: 12),
-              Text(
-                studentName,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircleAvatar(
+                      radius: 46,
+                      backgroundImage: AssetImage('assets/images/profile.jpg'),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      studentName,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(studentId),
+                    const SizedBox(height: 8),
+                    const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.phone_android),
+                        SizedBox(width: 8),
+                        Text('Mobile Programming Student'),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              '8',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text('Widget'),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              '4',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text('Layout'),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              '1',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text('State'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Text(studentId),
-              const SizedBox(height: 8),
-              const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.phone_android),
-                  SizedBox(width: 8),
-                  Text('Mobile Programming Student'),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Column(children: [Text('8'), Text('Widget')]),
-                  Column(children: [Text('4'), Text('Layout')]),
-                  Column(children: [Text('1'), Text('State')]),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
