@@ -1,9 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 const String studentName = 'I Kadek Agus Dwi Adnyana';
 const String studentId = '2415051076';
 
-// Koleksi data topik (Tahap 10 & 11)
+// Fungsi pembaca JSON sesuai Tahap 12
+Future<Map<String, dynamic>> loadStudentData() async {
+  final jsonString = await rootBundle.loadString(
+    'assets/data/student_data.json',
+  );
+  return jsonDecode(jsonString) as Map<String, dynamic>;
+}
+
+// Koleksi data topik dari Tahap 11 (tetap dipertahankan untuk tampilan UI)
 final List<Map<String, dynamic>> topics = [
   {'title': 'Git & GitHub', 'subtitle': 'Version control', 'done': true},
   {'title': 'Dart Fundamentals', 'subtitle': 'Language basics', 'done': true},
@@ -23,12 +34,31 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Menguji pembacaan JSON lewat debugPrint sesuai petunjuk lembar kerja
+    loadStudentData()
+        .then((data) {
+          debugPrint('=== HASIL BACA JSON STATIK TAHAP 12 ===');
+          debugPrint('Data Mahasiswa: ${data['student']}');
+          debugPrint('Total Mata Kuliah: ${(data['courses'] as List).length}');
+        })
+        .catchError((err) {
+          debugPrint('Error membaca JSON: $err');
+        });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Tahap 11: Menghitung ringkasan item selesai menggunakan where().length
     final int completed = topics.where((item) => item['done'] == true).length;
 
     return MaterialApp(
@@ -41,9 +71,7 @@ class MyApp extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // ==========================================
-                // KARTU PROFIL LENGKAP (Tahap 7 - 9)
-                // ==========================================
+                // Kartu Profil Lengkap
                 Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
@@ -104,9 +132,7 @@ class MyApp extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // ==========================================
-                // TAHAP 11: RINGKASAN & LIST LEBIH INFORMATIF
-                // ==========================================
+                // Ringkasan & List Informatif (Tahap 11)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
@@ -119,7 +145,6 @@ class MyApp extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
 
-                // ListView dengan pembungkus Card per-item sesuai lembar kerja
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -127,10 +152,7 @@ class MyApp extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = topics[index];
                     return Card(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                        vertical: 6,
-                      ),
+                      margin: const EdgeInsets.symmetric(vertical: 6),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -166,7 +188,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // Helper Reusable Widget untuk Kartu Statistik
   Widget buildStatCard(String value, String label, IconData icon) {
     return Expanded(
       child: Card(
@@ -186,7 +207,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Reusable StatefulWidget untuk Greeting Card (Tahap 9)
+// Reusable StatefulWidget untuk Greeting Card
 class GreetingCard extends StatefulWidget {
   const GreetingCard({super.key});
 
